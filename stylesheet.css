@@ -1,0 +1,72 @@
+button{
+    background-color: transparent;
+    color: white;
+    border: 5px solid blue;
+    border-radius: 10px;
+    padding: 15px 32px;
+    text-align: center;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+}
+button:hover{
+    background-color: blue;
+}
+input{
+    padding: 15px 0;
+    text-align: center;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 16px;
+    color: white;
+    border: 1px solid white;
+    background-color: transparent;
+    border-radius: 10px;
+    display: block;
+}
+p{
+    display: inline;
+    padding: 0px 32px;
+    text-align: center;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: white;
+
+}
+#inco{
+    visibility: hidden;
+}
+.input{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    margin-top: 50px;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+    color: white;
+
+}
+table, th, td {
+    border: 1px solid white;
+    border-collapse: collapse;
+    padding: 15px 32px;
+    text-align: center;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 16px;
+    margin: auto;
+}
+th{
+    cursor: pointer;
+}
+#dn{
+    visibility: hidden;
+}

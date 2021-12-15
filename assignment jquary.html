@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="input">
+    <input type="number" id="n1" placeholder="255" size="2" maxlength="2" minlength="0">
+    <p>.</p>
+    <input type="number" id="n2" placeholder="255" size="2" maxlength="2" minlength="0">
+    <p>.</p>
+    <input type="number" id="n3" placeholder="255" size="2" maxlength="2" minlength="0">
+    <p>.</p>
+    <input type="number" id="n4" placeholder="255" size="2" maxlength="2" minlength="0">
+</div>
+<p id="inco">Please enter a Valid IP address</p>
+    <button onclick="submit()">submit ip</button>
+    <input id="myInput" type="text" placeholder="Search..">
+    <p id="dn">Row Deleted</p>
+    <table id="myTable">
+
+    <tbody id="myTableBody">
+        <tr> 
+            <th onclick="sortTable(0)">IP</th>
+            <th onclick="sortTable(1)">Country Name</th>
+            <th onclick="sortTable(2)">Country Code</th>
+          </tr>
+    </tbody>
+      </table>
+
+</body>
+<script>
+function submit(){
+    $("#inco").css("visibility","hidden");
+    if($("#n1").val()<255 && $("#n1").val()!= "" && $("#n2").val()<255 && $("#n2").val()!= "" && $("#n3").val()<255 && $("#n3").val()!= "" && $("#n4").val()<255 && $("#n4").val()!= "" ){
+        var ip = $("#n1").val() +"."+ $("#n2").val() +"."+ $("#n3").val() +"." + $("#n4").val();
+        let url = "https://api.ipgeolocation.io/ipgeo?apiKey=c5391c6a7706452f860460603060199d&ip="+ip;
+        var d = 0;
+        $.get(url, function(data, status){
+            d = data;
+            var table = document.getElementById("myTable");
+        var row = table.insertRow(table.rows.length);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        cell1.innerHTML = ip;
+        cell2.innerHTML = d.country_code3;
+        cell3.innerHTML = d.calling_code;
+        cell4.innerHTML = '<button onclick="del(this)">delete</button>';
+        });
+
+    }
+    else{
+        $("#inco").css("visibility","visible");
+    }
+}
+
+
+function del(node) {
+    let x = $(node).parentsUntil("tbody").remove();
+    $("#dn").css("visibility","visible");
+    setTimeout(hi,2000);
+
+}
+function hi(){
+    $("#dn").css("visibility","hidden");
+}
+
+
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  var table = document.getElementById("myTable");
+  switching = true;
+  dir = "asc"; 
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          shouldSwitch= true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchcount ++;      
+    } else {
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTableBody tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+</html>
