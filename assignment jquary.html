@@ -6,13 +6,13 @@
 </head>
 <body>
     <div class="input">
-    <input type="number" id="n1" placeholder="255" size="2" maxlength="2" minlength="0">
+    <input type="number" id="n1" class ="move" placeholder="255" size="2" min="1" max="255" step="1" required>
     <p>.</p>
-    <input type="number" id="n2" placeholder="255" size="2" maxlength="2" minlength="0">
+    <input type="number" id="n2" class ="move" placeholder="255" size="2" min="1" max="255">
     <p>.</p>
-    <input type="number" id="n3" placeholder="255" size="2" maxlength="2" minlength="0">
+    <input type="number" id="n3" class ="move" placeholder="255" size="2" min="1" max="255">
     <p>.</p>
-    <input type="number" id="n4" placeholder="255" size="2" maxlength="2" minlength="0">
+    <input type="number" id="n4" class ="move" placeholder="255" size="2" min="1" max="255">
 </div>
 <p id="inco">Please enter a Valid IP address</p>
     <button onclick="submit()">submit ip</button>
@@ -23,17 +23,23 @@
     <tbody id="myTableBody">
         <tr> 
             <th onclick="sortTable(0)">IP</th>
-            <th onclick="sortTable(1)">Country Name</th>
-            <th onclick="sortTable(2)">Country Code</th>
+            <th onclick="sortTable(1)">City</th>
+            <th onclick="sortTable(2)">Country Name</th>
+            <th onclick="sortTable(3)">Country Code</th>
           </tr>
     </tbody>
       </table>
 
 </body>
 <script>
+  $(document).on('keypress',function(e) {
+    if(e.which == 13) {
+        submit();
+    }
+});
 function submit(){
     $("#inco").css("visibility","hidden");
-    if($("#n1").val()<255 && $("#n1").val()!= "" && $("#n2").val()<255 && $("#n2").val()!= "" && $("#n3").val()<255 && $("#n3").val()!= "" && $("#n4").val()<255 && $("#n4").val()!= "" ){
+    if($("#n1").val()<256 && $("#n1").val()!= "" && $("#n1").val()%1==0 &&$("#n2").val()<256 && $("#n2").val()!= "" && $("#n2").val()%1==0 && $("#n3").val()<256 && $("#n3").val()!= "" && $("#n3").val()%1==0 && $("#n4").val()<256 && $("#n4").val()!= "" && $("#n4").val()%1==0 ){
         var ip = $("#n1").val() +"."+ $("#n2").val() +"."+ $("#n3").val() +"." + $("#n4").val();
         let url = "https://api.ipgeolocation.io/ipgeo?apiKey=c5391c6a7706452f860460603060199d&ip="+ip;
         var d = 0;
@@ -45,15 +51,21 @@ function submit(){
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
         var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
         cell1.innerHTML = ip;
-        cell2.innerHTML = d.country_code3;
-        cell3.innerHTML = d.calling_code;
-        cell4.innerHTML = '<button onclick="del(this)">delete</button>';
-        });
+        cell2.innerHTML = d.city;
+        cell3.innerHTML = d.country_name;
+        cell4.innerHTML = d.country_code3 + "<br> <br>" + d.calling_code;
+        cell5.innerHTML = '<button onclick="del(this)">delete</button>';
+        
+        })  
+        .fail(function(data) {
+          $("#inco").text(data.responseText).css("visibility","visible");
+        })
 
     }
     else{
-        $("#inco").css("visibility","visible");
+        $("#inco").text("Please enter a Valid IP address").css("visibility","visible");
     }
 }
 
