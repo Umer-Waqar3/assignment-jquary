@@ -70,3 +70,7 @@ th{
 #dn{
     visibility: hidden;
 }
+tr:hover{
+    background-color: darkgray;
+    
+}
