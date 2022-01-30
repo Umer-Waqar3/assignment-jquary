@@ -16,6 +16,7 @@
 </div>
 <p id="inco">Please enter a Valid IP address</p>
     <button onclick="submit()">submit ip</button>
+    <div id="btn"></div>
     <input id="myInput" type="text" placeholder="Search..">
     <p id="dn">Row Deleted</p>
     <table id="myTable">
@@ -32,6 +33,14 @@
 
 </body>
 <script>
+
+
+$(document).ready(function(){
+  $('#btn1').click(function(){
+    alert('clicked');
+  })
+})
+$('#btn').html('<button id="btn1">button</button>');
   $(document).on('keypress',function(e) {
     if(e.which == 13) {
         submit();
